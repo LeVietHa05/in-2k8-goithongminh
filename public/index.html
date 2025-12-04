@@ -1,13 +1,388 @@
 <html>
+  <head>
+    <title>Smaaaart WIILLOWWWW</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  </head>
 
-<head>
-  <title>Express</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
-</head>
+  <body class="bg-gradient-to-b from-[#3A59D1] to-[#B5FCCD]">
+    <header
+      class="backdrop-blur-md bg-gradient-to-r from-[#3A59D1]/30 via-[#3D90D7]/30 to-[#B5FCCD]/30 border border-white/40 shadow-md rounded-b-2xl p-4 mb-6"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center"
+      >
+        <h1 class="text-2xl font-bold text-white drop-shadow-md">
+          Smaaaart WIILLOWWWW
+        </h1>
+      </div>
+    </header>
 
-<body>
-  <h1>Express</h1>
-  <p>Welcome to Express</p>
-</body>
+    <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <!-- heartRate -->
+      <section class="py-4">
+        <div
+          class="bg-white rounded-2xl shadow-md flex overflow-hidden sm:flex-row flex-col"
+        >
+          <!-- Left -->
+          <div
+            class="sm:sm:w-[15%] w-full w-full p-4 flex flex-col justify-center"
+          >
+            <h3 class="text-lg font-semibold text-blue-700">Heart Rate</h3>
+            <p class="text-3xl font-bold text-red-500 mt-2">
+              <span id="heartRateIndex">90</span>bpm
+            </p>
+            <p class="text-sm text-yellow-600 mt-2" id="heartRateNotice">
+              Slightly above normal
+            </p>
+          </div>
+          <!-- Middle -->
+          <div class="sm:sm:w-[70%] w-full w-full p-4">
+            <div
+              class="w-full h-48 flex items-center justify-center text-gray-400"
+            >
+              <canvas id="heartRateChart"></canvas>
+            </div>
+          </div>
+          <!-- Right -->
+          <div
+            class="sm:sm:w-[15%] w-full w-[30%] p-4 flex flex-col justify-center border-l border-gray-200"
+          >
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+              <span class="font-medium">Max</span>
+              <span>120 </span><span>BPM</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600">
+              <span class="font-medium">Min</span>
+              <span>60 </span><span>BPM</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
+      <!-- spo2 -->
+      <section class="py-4">
+        <div
+          class="bg-white rounded-2xl shadow-md flex overflow-hidden sm:flex-row flex-col"
+        >
+          <!-- Left -->
+          <div
+            class="sm:sm:w-[15%] w-full w-full p-4 flex flex-col justify-center"
+          >
+            <h3 class="text-lg font-semibold text-blue-700">SPO2</h3>
+            <p class="text-3xl font-bold text-red-500 mt-2">
+              <span id="oxygenIndex">95</span>%
+            </p>
+            <p class="text-sm text-yellow-600 mt-2" id="oxygenNotice">
+              Slightly above normal
+            </p>
+          </div>
+          <!-- Middle -->
+          <div class="sm:sm:w-[70%] w-full w-full p-4">
+            <div
+              class="w-full h-48 flex items-center justify-center text-gray-400"
+            >
+              <canvas id="oxygenChart"></canvas>
+            </div>
+          </div>
+          <!-- Right -->
+          <div
+            class="sm:sm:w-[15%] w-full w-[30%] p-4 flex flex-col justify-center border-l border-gray-200"
+          >
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+              <span class="font-medium">Max</span>
+              <span>100 </span><span>BPM</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600">
+              <span class="font-medium">Min</span>
+              <span>92 </span><span>BPM</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- body temperature -->
+      <section class="py-4">
+        <div
+          class="bg-white rounded-2xl shadow-md flex overflow-hidden sm:flex-row flex-col"
+        >
+          <!-- Left -->
+          <div
+            class="sm:sm:w-[15%] w-full w-full p-4 flex flex-col justify-center"
+          >
+            <h3 class="text-lg font-semibold text-blue-700">
+              Body temperature
+            </h3>
+            <p class="text-3xl font-bold text-red-500 mt-2">
+              <span id="healthTempIndex">37</span>°C
+            </p>
+            <p class="text-sm text-yellow-600 mt-2" id="healthTempNotice">
+              Slightly above normal
+            </p>
+          </div>
+          <!-- Middle -->
+          <div class="sm:sm:w-[70%] w-full w-full p-4">
+            <div
+              class="w-full h-48 flex items-center justify-center text-gray-400"
+            >
+              <canvas id="healthTempChart"></canvas>
+            </div>
+          </div>
+          <!-- Right -->
+          <div
+            class="sm:sm:w-[15%] w-full w-[30%] p-4 flex flex-col justify-center border-l border-gray-200"
+          >
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+              <span class="font-medium">Max</span>
+              <span>38 </span><span>°C</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600">
+              <span class="font-medium">Min</span>
+              <span>36 </span><span>°C</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- temp -->
+      <section class="py-4">
+        <div
+          class="bg-white rounded-2xl shadow-md flex overflow-hidden sm:flex-row flex-col"
+        >
+          <!-- Left -->
+          <div
+            class="sm:sm:w-[15%] w-full w-full p-4 flex flex-col justify-center"
+          >
+            <h3 class="text-lg font-semibold text-blue-700">Temperature</h3>
+            <p class="text-3xl font-bold text-red-500 mt-2">
+              <span id="tempIndex">28</span>°C
+            </p>
+            <p class="text-sm text-yellow-600 mt-2" id="temperatureNotice">
+              Slightly above normal
+            </p>
+          </div>
+          <!-- Middle -->
+          <div class="sm:sm:w-[70%] w-full w-full p-4">
+            <div
+              class="w-full h-48 flex items-center justify-center text-gray-400"
+            >
+              <canvas id="tempChart"></canvas>
+            </div>
+          </div>
+          <!-- Right -->
+          <div
+            class="sm:sm:w-[15%] w-full w-[30%] p-4 flex flex-col justify-center border-l border-gray-200"
+          >
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+              <span class="font-medium">Max</span>
+              <span>30°C</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600">
+              <span class="font-medium">Min</span>
+              <span>21°C</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- humid -->
+      <section class="py-4">
+        <div
+          class="bg-white rounded-2xl shadow-md flex overflow-hidden sm:flex-row flex-col"
+        >
+          <!-- Left -->
+          <div class="sm:w-[15%] w-full p-4 flex flex-col justify-center">
+            <h3 class="text-lg font-semibold text-green-700">Humidity</h3>
+            <p class="text-3xl font-bold text-blue-500 mt-2">
+              <span id="humiIndex">65</span>%
+            </p>
+            <p class="text-sm text-green-600 mt-2" id="humidityNotice">
+              Comfortable
+            </p>
+          </div>
+          <!-- Middle -->
+          <div class="sm:w-[70%] w-full p-4">
+            <div
+              class="w-full h-48 flex items-center justify-center text-gray-400"
+            >
+              <canvas id="humidChart"></canvas>
+            </div>
+          </div>
+          <!-- Right -->
+          <div
+            class="sm:w-[15%] w-full p-4 flex flex-col justify-center border-l border-gray-200"
+          >
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+              <span class="font-medium">Max</span>
+              <span>70%</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600">
+              <span class="font-medium">Min</span>
+              <span>30%</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- pm25 -->
+      <section class="py-4">
+        <div
+          class="bg-white rounded-2xl shadow-md flex overflow-hidden sm:flex-row flex-col"
+        >
+          <!-- Left -->
+          <div class="sm:w-[15%] w-full p-4 flex flex-col justify-center">
+            <h3 class="text-lg font-semibold text-purple-700">PM2.5</h3>
+            <p class="text-3xl font-bold text-purple-600 mt-2">
+              <span id="pm25Index">45</span> µg/m³
+            </p>
+            <p class="text-sm text-red-600 mt-2" id="pm25Notice">
+              Unhealthy for sensitive groups
+            </p>
+          </div>
+          <!-- Middle -->
+          <div class="sm:w-[70%] w-full p-4">
+            <div
+              class="w-full h-48 flex items-center justify-center text-gray-400"
+            >
+              <canvas id="pm25Chart"></canvas>
+            </div>
+          </div>
+
+          <!-- ight -->
+          <div
+            class="sm:w-[15%] w-full p-4 flex flex-col justify-center border-l border-gray-200"
+          >
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+              <span class="font-medium">Max</span>
+              <span>50</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600">
+              <span class="font-medium">Min</span>
+              <span>0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- co2 -->
+      <section class="py-4">
+        <div
+          class="bg-white rounded-2xl shadow-md flex overflow-hidden sm:flex-row flex-col"
+        >
+          <!-- Left -->
+          <div class="sm:w-[15%] w-full p-4 flex flex-col justify-center">
+            <h3 class="text-lg font-semibold text-gray-800">CO2</h3>
+            <p class="text-3xl font-bold text-red-500 mt-2" id="aqiIndex">
+              120
+            </p>
+            <p class="text-sm text-red-600 mt-2" id="aqiNotice">
+              Unhealthy for sensitive groups
+            </p>
+          </div>
+          <!-- Middle -->
+          <div class="sm:w-[70%] w-full p-4">
+            <div
+              class="w-full h-48 flex items-center justify-center text-gray-400"
+            >
+              <canvas id="co2Chart"></canvas>
+            </div>
+          </div>
+          <!-- Right -->
+          <div
+            class="sm:w-[15%] w-full p-4 flex flex-col justify-center border-l border-gray-200"
+          >
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+              <span class="font-medium">Max</span>
+              <span>100</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600">
+              <span class="font-medium">Min</span>
+              <span>0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- light / uv -->
+      <section class="py-4">
+        <div
+          class="bg-white rounded-2xl shadow-md flex overflow-hidden sm:flex-row flex-col"
+        >
+          <!-- Left -->
+          <div class="sm:w-[15%] w-full p-4 flex flex-col justify-center">
+            <h3 class="text-lg font-semibold text-yellow-700">Light Index</h3>
+            <p class="text-3xl font-bold text-orange-500 mt-2" id="uvIndex">
+              7
+            </p>
+            <p class="text-sm text-orange-600 mt-2" id="uvNotice">
+              High - Use protection
+            </p>
+          </div>
+          <!-- Middle -->
+          <div class="sm:w-[70%] w-full p-4">
+            <div
+              class="w-full h-48 flex items-center justify-center text-gray-400"
+            >
+              <canvas id="lightChart"></canvas>
+            </div>
+          </div>
+          <!-- Right -->
+          <div
+            class="sm:w-[15%] w-full p-4 flex flex-col justify-center border-l border-gray-200"
+          >
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+              <span class="font-medium">Max</span>
+              <span>5</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600">
+              <span class="font-medium">Min</span>
+              <span>0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- noise -->
+      <section class="py-4">
+        <div
+          class="bg-white rounded-2xl shadow-md flex overflow-hidden sm:flex-row flex-col"
+        >
+          <!-- Left -->
+          <div class="sm:w-[15%] w-full p-4 flex flex-col justify-center">
+            <h3 class="text-lg font-semibold text-yellow-700">Noise Index</h3>
+            <p class="text-3xl font-bold text-orange-500 mt-2" id="uvIndex">
+              7
+            </p>
+            <p class="text-sm text-orange-600 mt-2" id="uvNotice">
+              High - Use protection
+            </p>
+          </div>
+          <!-- Middle -->
+          <div class="sm:w-[70%] w-full p-4">
+            <div
+              class="w-full h-48 flex items-center justify-center text-gray-400"
+            >
+              <canvas id="noiseChart"></canvas>
+            </div>
+          </div>
+          <!-- Right -->
+          <div
+            class="sm:w-[15%] w-full p-4 flex flex-col justify-center border-l border-gray-200"
+          >
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+              <span class="font-medium">Max</span>
+              <span>5</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600">
+              <span class="font-medium">Min</span>
+              <span>0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/javascripts/script.js"></script>
+  </body>
 </html>

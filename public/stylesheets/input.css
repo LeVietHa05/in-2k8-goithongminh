@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00b7ff;
+}
+
+#chart-container {
+  width: 95%;
+  max-width: 900px;
+  margin: 40px auto;
+}
