@@ -23,19 +23,59 @@ function createCRUDRoute({ table, columns }) {
         );
     });
 
-    // ---- READ ALL + Pagination ----
+    // ---- READ ALL + Pagination + Filter + Sort ----
     router.get("/", (req, res) => {
         const page = Number(req.query.page ?? 1);
         const limit = Number(req.query.limit ?? 20);
         const offset = (page - 1) * limit;
 
-        db.all(
-            `SELECT * FROM ${table} LIMIT ? OFFSET ?`,
-            [limit, offset],
-            (err, rows) => {
-                if (err) return res.json({ success: false, error: err.message });
+        // Build WHERE dynamically
+        let where = [];
+        let params = [];
 
-                db.get(`SELECT COUNT(*) AS total FROM ${table}`, (err, count) => {
+        // 1. FILTER by exact match
+        for (const col of columns) {
+            if (req.query[col] !== undefined) {
+                where.push(`${col} = ?`);
+                params.push(req.query[col]);
+            }
+        }
+
+        // 2. FILTER by time range (optional)
+        if (req.query.startDate && req.query.endDate) {
+            where.push(`timestamp BETWEEN ? AND ?`);
+            params.push(req.query.startDate);
+            params.push(req.query.endDate);
+        }
+
+        const whereSQL = where.length ? `WHERE ${where.join(" AND ")}` : "";
+
+        // 3. SORTING
+        let sortSQL = "";
+        if (req.query.sortBy) {
+            const col = req.query.sortBy;
+            if (columns.includes(col)) {
+                const direction = req.query.order === "desc" ? "DESC" : "ASC";
+                sortSQL = `ORDER BY ${col} ${direction}`;
+            }
+        }
+
+        // Final SQL
+        const sql = `
+        SELECT * FROM ${table}
+        ${whereSQL}
+        ${sortSQL}
+        LIMIT ? OFFSET ?
+    `;
+
+        db.all(sql, [...params, limit, offset], (err, rows) => {
+            if (err) return res.json({ success: false, error: err.message });
+
+            // Count for pagination
+            db.get(
+                `SELECT COUNT(*) AS total FROM ${table} ${whereSQL}`,
+                params,
+                (err, count) => {
                     res.json({
                         success: true,
                         data: rows,
@@ -46,10 +86,11 @@ function createCRUDRoute({ table, columns }) {
                             totalPages: Math.ceil(count.total / limit)
                         }
                     });
-                });
-            }
-        );
+                }
+            );
+        });
     });
+
 
     // ---- READ ONE ----
     router.get("/:id", (req, res) => {

@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS sleepData (
     position INTEGER,
     heartRate INTEGER,
     bodyTemperature REAL,
-    spo2 INTEGER
+    spo2 INTEGER,
+    timestamp INTEGER, 
 );
 
 -- Schema for sleepStatistic table
@@ -30,5 +31,6 @@ CREATE TABLE IF NOT EXISTS sleepStatistic (
     timeLeft INTEGER,
     timeRight INTEGER,
     timeCenter INTEGER,
-    positionChanges INTEGER
+    positionChanges INTEGER,
+    timestamp INTEGER   
 );

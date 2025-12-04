@@ -21,6 +21,7 @@ router.use(
       "position",
       "heartRate",
       "bodyTemperature",
+      "timestamp",
       "spo2"
     ]
   })
@@ -42,6 +43,7 @@ router.use(
       "timeLeft",
       "timeRight",
       "timeCenter",
+      "timestamp",
       "positionChanges"
     ]
   })
