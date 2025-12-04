@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS sleepData (
     heartRate INTEGER,
     bodyTemperature REAL,
     spo2 INTEGER,
-    timestamp INTEGER, 
+    timestamp INTEGER DEFAULT (strftime('%s','now'))
 );
 
 -- Schema for sleepStatistic table
@@ -32,5 +32,5 @@ CREATE TABLE IF NOT EXISTS sleepStatistic (
     timeRight INTEGER,
     timeCenter INTEGER,
     positionChanges INTEGER,
-    timestamp INTEGER   
+    timestamp INTEGER DEFAULT (strftime('%s','now'))   
 );
