@@ -205,3 +205,168 @@ async function loadChart() {
 
 // chạy sau khi trang load
 loadChart();
+
+/**************************************
+ * 4) Sleep Analysis Modal Functions
+ **************************************/
+
+// Fetch last report data
+async function fetchLastReport() {
+    try {
+        const res = await fetch('/statistic/last-report');
+        if (!res.ok) throw new Error("Network error");
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.error("Fetch last report error:", err);
+        return { success: false, error: err.message };
+    }
+}
+
+// Format date from YYYY-MM-DD or timestamp
+function formatDate(dateStr) {
+    if (!dateStr) return '-';
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return dateStr;
+    return date.toLocaleDateString('vi-VN', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+}
+
+// Format quality level to Vietnamese
+function formatQualityLevel(level) {
+    const levels = {
+        'excellent': 'Xuất sắc',
+        'good': 'Tốt',
+        'fair': 'Trung bình',
+        'poor': 'Kém'
+    };
+    return levels[level] || level;
+}
+
+// Populate modal with report data
+function populateModal(report) {
+    // Report date
+    document.getElementById('reportDate').textContent = formatDate(report.reportDate);
+    
+    // Scores
+    document.getElementById('overallScore').textContent = report.overallScore || '-';
+    document.getElementById('physiologyScore').textContent = report.physiologyScore || '-';
+    document.getElementById('environmentScore').textContent = report.environmentScore || '-';
+    document.getElementById('qualityLevel').textContent = formatQualityLevel(report.qualityLevel);
+    
+    // Sleep metrics
+    document.getElementById('totalSleepHours').textContent = report.totalSleepHours || '-';
+    document.getElementById('sleepEfficiency').textContent = report.sleepEfficiency || '-';
+    document.getElementById('deepSleepPercent').textContent = 
+        report.deepSleepPercent ? report.deepSleepPercent.toFixed(1) : '-';
+    document.getElementById('positionChanges').textContent = report.positionChanges || '-';
+    
+    // Health metrics
+    document.getElementById('avgHeartRate').textContent = 
+        report.avgHeartRate ? report.avgHeartRate.toFixed(1) : '-';
+    document.getElementById('avgSpO2').textContent = 
+        report.avgSpO2 ? report.avgSpO2.toFixed(1) : '-';
+    document.getElementById('avgBodyTemp').textContent = 
+        report.avgBodyTemp ? report.avgBodyTemp.toFixed(1) : '-';
+    
+    // AI Analysis
+    document.getElementById('aiAnalysis').textContent = report.aiAnalysis || 'Không có phân tích';
+    
+    // Recommendations
+    const recommendationsList = document.getElementById('recommendations');
+    recommendationsList.innerHTML = '';
+    
+    if (report.recommendations && Array.isArray(report.recommendations)) {
+        report.recommendations.forEach(rec => {
+            const li = document.createElement('li');
+            li.className = 'flex items-start gap-2 bg-white rounded-lg p-3';
+            li.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-sm text-gray-700">${rec}</span>
+            `;
+            recommendationsList.appendChild(li);
+        });
+    } else {
+        recommendationsList.innerHTML = '<li class="text-sm text-gray-500 bg-white rounded-lg p-3">Không có khuyến nghị</li>';
+    }
+}
+
+// Show modal states
+function showLoadingState() {
+    document.getElementById('loadingState').classList.remove('hidden');
+    document.getElementById('errorState').classList.add('hidden');
+    document.getElementById('contentState').classList.add('hidden');
+}
+
+function showErrorState(message) {
+    document.getElementById('loadingState').classList.add('hidden');
+    document.getElementById('errorState').classList.remove('hidden');
+    document.getElementById('contentState').classList.add('hidden');
+    document.getElementById('errorMessage').textContent = message || 'Không thể tải dữ liệu';
+}
+
+function showContentState() {
+    document.getElementById('loadingState').classList.add('hidden');
+    document.getElementById('errorState').classList.add('hidden');
+    document.getElementById('contentState').classList.remove('hidden');
+}
+
+// Open modal and load data
+async function openAnalysisModal() {
+    const modal = document.getElementById('analysisModal');
+    modal.classList.remove('hidden');
+    showLoadingState();
+    
+    const result = await fetchLastReport();
+    
+    if (result.success && result.data && result.data.length > 0) {
+        populateModal(result.data[0]);
+        showContentState();
+    } else {
+        showErrorState(result.error || 'Không tìm thấy báo cáo');
+    }
+}
+
+// Close modal
+function closeAnalysisModal() {
+    const modal = document.getElementById('analysisModal');
+    modal.classList.add('hidden');
+}
+
+// Event listeners for modal
+document.addEventListener('DOMContentLoaded', function() {
+    const analysisBtn = document.getElementById('analysisBtn');
+    const closeModalBtn = document.getElementById('closeModal');
+    const modal = document.getElementById('analysisModal');
+    
+    // Open modal on button click
+    if (analysisBtn) {
+        analysisBtn.addEventListener('click', openAnalysisModal);
+    }
+    
+    // Close modal on close button click
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeAnalysisModal);
+    }
+    
+    // Close modal on overlay click
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeAnalysisModal();
+            }
+        });
+    }
+    
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeAnalysisModal();
+        }
+    });
+});

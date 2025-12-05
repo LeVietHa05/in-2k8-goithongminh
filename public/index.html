@@ -383,6 +383,166 @@
       </section>
     </main>
 
+
+    <!-- Analysis Button -->
+    <button 
+      id="analysisBtn"
+      class="fixed top-1/2 right-10 -translate-y-1/2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+      </svg>
+      <span>Phân tích gần nhất</span>
+    </button>
+
+    <!-- Modal Overlay -->
+    <div id="analysisModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <!-- Modal Container -->
+      <div class="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+        <!-- Modal Header -->
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-6 flex justify-between items-center">
+          <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+              <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            Báo cáo phân tích giấc ngủ
+          </h2>
+          <button id="closeModal" class="text-white hover:text-gray-200 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Modal Content -->
+        <div class="overflow-y-auto p-6 flex-1">
+          <!-- Loading State -->
+          <div id="loadingState" class="flex items-center justify-center py-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+          </div>
+
+          <!-- Error State -->
+          <div id="errorState" class="hidden text-center py-12">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p class="text-gray-600 text-lg" id="errorMessage">Không thể tải dữ liệu</p>
+          </div>
+
+          <!-- Content State -->
+          <div id="contentState" class="hidden space-y-6">
+            <!-- Report Date -->
+            <div class="text-center pb-4 border-b border-gray-200">
+              <p class="text-sm text-gray-500">Ngày báo cáo</p>
+              <p class="text-xl font-semibold text-gray-800" id="reportDate">-</p>
+            </div>
+
+            <!-- Score Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <!-- Overall Score -->
+              <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center">
+                <p class="text-sm text-purple-600 font-medium mb-2">Điểm tổng thể</p>
+                <p class="text-4xl font-bold text-purple-700" id="overallScore">-</p>
+                <p class="text-xs text-purple-600 mt-1" id="qualityLevel">-</p>
+              </div>
+
+              <!-- Physiology Score -->
+              <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center">
+                <p class="text-sm text-blue-600 font-medium mb-2">Điểm sinh lý</p>
+                <p class="text-4xl font-bold text-blue-700" id="physiologyScore">-</p>
+              </div>
+
+              <!-- Environment Score -->
+              <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center">
+                <p class="text-sm text-green-600 font-medium mb-2">Điểm môi trường</p>
+                <p class="text-4xl font-bold text-green-700" id="environmentScore">-</p>
+              </div>
+            </div>
+
+            <!-- Sleep Metrics -->
+            <div class="bg-gray-50 rounded-xl p-4">
+              <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                </svg>
+                Thông tin giấc ngủ
+              </h3>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="bg-white rounded-lg p-3">
+                  <p class="text-xs text-gray-500">Tổng thời gian</p>
+                  <p class="text-lg font-semibold text-gray-800"><span id="totalSleepHours">-</span>h</p>
+                </div>
+                <div class="bg-white rounded-lg p-3">
+                  <p class="text-xs text-gray-500">Hiệu suất</p>
+                  <p class="text-lg font-semibold text-gray-800"><span id="sleepEfficiency">-</span>%</p>
+                </div>
+                <div class="bg-white rounded-lg p-3">
+                  <p class="text-xs text-gray-500">Ngủ sâu</p>
+                  <p class="text-lg font-semibold text-gray-800"><span id="deepSleepPercent">-</span>%</p>
+                </div>
+                <div class="bg-white rounded-lg p-3">
+                  <p class="text-xs text-gray-500">Thay đổi tư thế</p>
+                  <p class="text-lg font-semibold text-gray-800" id="positionChanges">-</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Health Metrics -->
+            <div class="bg-gray-50 rounded-xl p-4">
+              <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                </svg>
+                Chỉ số sức khỏe
+              </h3>
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div class="bg-white rounded-lg p-3">
+                  <p class="text-xs text-gray-500">Nhịp tim TB</p>
+                  <p class="text-lg font-semibold text-gray-800"><span id="avgHeartRate">-</span> bpm</p>
+                </div>
+                <div class="bg-white rounded-lg p-3">
+                  <p class="text-xs text-gray-500">SpO2 TB</p>
+                  <p class="text-lg font-semibold text-gray-800"><span id="avgSpO2">-</span>%</p>
+                </div>
+                <div class="bg-white rounded-lg p-3">
+                  <p class="text-xs text-gray-500">Nhiệt độ cơ thể</p>
+                  <p class="text-lg font-semibold text-gray-800"><span id="avgBodyTemp">-</span>°C</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- AI Analysis -->
+            <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-4">
+              <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                </svg>
+                Phân tích AI
+              </h3>
+              <div class="bg-white rounded-lg p-4 max-h-64 overflow-y-auto">
+                <p class="text-sm text-gray-700 whitespace-pre-line leading-relaxed" id="aiAnalysis">-</p>
+              </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="bg-gradient-to-br from-green-50 to-teal-50 rounded-xl p-4">
+              <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                Khuyến nghị
+              </h3>
+              <ul class="space-y-2" id="recommendations">
+                <!-- Recommendations will be inserted here -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="/javascripts/script.js"></script>
   </body>
 </html>
