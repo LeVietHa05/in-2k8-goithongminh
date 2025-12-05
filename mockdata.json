@@ -15,47 +15,6 @@
     "bodyTemperature": 36.5,
     "spo2": 98
   },
-  "sleep_data_noco2": {
-    "deviceID": 1,
-    "type": "sleep_data",
-    "stage": 2,
-    "sleepTime": 10800,
-    "temperature": 24.8,
-    "humidity": 58.8,
-    "pm25": 28,
-    "light": 120.5,
-    "noise": 45.2,
-    "position": 2,
-    "heartRate": 72,
-    "bodyTemperature": 36.5,
-    "spo2": 97
-  },
-  "sleep_data_nobody": {
-    "deviceID": 1,
-    "type": "sleep_data",
-    "stage": 3,
-    "sleepTime": 21600,
-    "temperature": 25.2,
-    "humidity": 59.0,
-    "co2": 480,
-    "pm25": 35,
-    "light": 120.5,
-    "noise": 45.2,
-    "position": 3
-  },
-  "sleep_statistics_short": {
-    "deviceID": 1,
-    "type": "sleep_statistics",
-    "startTime": 1704067200000,
-    "endTime": 1704085200000,
-    "totalTime": 18000,
-    "totalSleepHours ": 5.0,
-    "isCompleteSleep": false,
-    "timeLeft": 3600,
-    "timeRight": 7200,
-    "timeCenter": 7200,
-    "positionChanges": 8
-  },
   "sleep_statistics_long": {
     "deviceID": 1,
     "type": "sleep_statistics",
