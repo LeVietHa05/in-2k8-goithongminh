@@ -5,6 +5,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
+var triggerRouter = require('./routes/trigger')
+var getStatisticRouter = require('./routes/get_statistic')
 
 var app = express();
 
@@ -16,6 +18,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
+app.use('/trigger', triggerRouter)
+app.use('/statistic', getStatisticRouter)
 
 // Serve frontend
 app.get('/', (req, res) => {

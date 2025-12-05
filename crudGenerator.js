@@ -1,5 +1,7 @@
 const express = require("express");
 const db = require("./db");
+require('dotenv').config()
+const SleepAnalysisService = require('./sleepAnalyzer/sleepAnalysisService')
 
 // Auto CRUD Generator
 function createCRUDRoute({ table, columns }) {
@@ -12,13 +14,17 @@ function createCRUDRoute({ table, columns }) {
     // ---- CREATE ----
     router.post("/", (req, res) => {
         const values = columns.map(c => req.body[c] ?? null);
-
         db.run(
             `INSERT INTO ${table} (${colList}) VALUES (${placeholders})`,
             values,
             function (err) {
                 if (err) return res.json({ success: false, error: err.message });
-                res.json({ success: true, id: this.lastID });
+
+                if (values.includes("sleep_statistics")) {
+                    const analysis = new SleepAnalysisService({ openaiApiKey: process.env.OPENAI_API_KEY })
+                    analysis.processNewSleepStatistic(this.lastID)
+                }
+                res.json({ success: true, id: this.lastID, message: 'Đã nhận dữ liệu. Đang phân tích...' });
             }
         );
     });
