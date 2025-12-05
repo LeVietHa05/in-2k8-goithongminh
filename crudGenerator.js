@@ -57,7 +57,7 @@ function createCRUDRoute({ table, columns }) {
         const whereSQL = where.length ? `WHERE ${where.join(" AND ")}` : "";
 
         // 3. SORTING
-        let sortSQL = "";
+        let sortSQL = "ORDER BY timestamp DESC";
         if (req.query.sortBy) {
             const col = req.query.sortBy;
             if (columns.includes(col)) {
