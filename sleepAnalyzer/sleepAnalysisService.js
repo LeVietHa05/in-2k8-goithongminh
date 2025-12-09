@@ -116,8 +116,8 @@ class SleepAnalysisService {
             // 3. Lấy sleepData trong khoảng thời gian ngủ
             const sleepData = await this.getSleepDataForPeriod(
                 sleepStat.deviceID,
-                sleepStat.startTime / 1000,
-                sleepStat.endTime / 1000
+                sleepStat.startTime ,
+                sleepStat.endTime 
             );
 
             // 4. Tính toán các metrics từ sleepData
