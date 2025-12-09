@@ -21,9 +21,11 @@ router.get('/', function (req, res, next) {
 });
 
 
-router.get('/re-ai/:id', function (req, res, next) {
-    const { id } = req.params
-
+router.get('/re-ai/:sleepStatID', async function (req, res, next) {
+    const { sleepStatID } = req.params
+    let result = await analysisService.processNewSleepStatistic(sleepStatID)
+    console.log(result)
+    return res.json({ success: true, data: result })
 
 })
 
