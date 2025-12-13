@@ -676,7 +676,6 @@ class SleepAnalysisService {
                 completedAt = ?
             WHERE sleepStatID = ? 
                 AND status != 'completed'
-            ORDER BY id DESC LIMIT 1
         `;
 
         return new Promise((resolve, reject) => {
