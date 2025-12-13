@@ -850,7 +850,6 @@ class SleepAnalysisService {
 
         } catch (error) {
             console.error('Lỗi khi gọi OpenAI:', error);
-            throw error
             return 'Không thể tạo phân tích AI lúc này. Vui lòng thử lại sau.';
         }
     }
