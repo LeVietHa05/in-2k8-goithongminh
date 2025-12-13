@@ -114,11 +114,18 @@ class SleepAnalysisService {
             await this.createTriggerRecord(sleepStatID, 'auto', 'processing');
 
             // 3. Lấy sleepData trong khoảng thời gian ngủ
-            const sleepData = await this.getSleepDataForPeriod(
+            let sleepData = await this.getSleepDataForPeriod(
                 sleepStat.deviceID,
-                sleepStat.startTime ,
-                sleepStat.endTime 
+                sleepStat.startTime,
+                sleepStat.endTime
             );
+
+            if (sleepData.length == 0)
+                sleepData = await this.getSleepDataForPeriod(
+                    sleepStat.deviceID,
+                    sleepStat.startTime / 1000,
+                    sleepStat.endTime / 1000
+                );
 
             // 4. Tính toán các metrics từ sleepData
             const calculatedMetrics = await this.calculateSleepMetrics(sleepData);
