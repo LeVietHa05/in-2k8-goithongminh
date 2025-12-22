@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS sleepAnalysisReports (
 -- Schema for thresholds table
 CREATE TABLE IF NOT EXISTS thresholds (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    deviceID INTEGER NOT NULL,
+    deviceID INTEGER UNIQUE NOT NULL,
     temp REAL DEFAULT 30.0,
     humid REAL DEFAULT 70.0,
     pm25 REAL DEFAULT 50.0,
