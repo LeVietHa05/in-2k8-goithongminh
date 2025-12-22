@@ -70,6 +70,25 @@ Object.values(mockdata).forEach((item) => {
 insertSleepData.finalize();
 insertSleepStatistic.finalize();
 
+db.run(
+    `INSERT INTO thresholds (deviceID, temp) VALUES (?, ?)`,
+    [1, 25.5],
+    function (err) {
+        if (err) console.log('Insert error:', err);
+        else     console.log('Inserted ID:', this.lastID);
+
+        // Test UNIQUE constraint
+        db.run(
+            `INSERT INTO thresholds (deviceID) VALUES (?)`,
+            [1],  // Trùng deviceID
+            function (err) {
+                if (err) console.log('Expected error (unique violation):', err.message);
+                else console.log('UNIQUE constraint không hoạt động!');
+            }
+        );
+    }
+);
+
 // Close the database connection
 db.close((err) => {
     if (err) {
