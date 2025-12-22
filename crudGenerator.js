@@ -27,6 +27,9 @@ function createCRUDRoute({ table, columns }) {
                     const analysis = new SleepAnalysisService({ openaiApiKey: process.env.OPENAI_API_KEY })
                     analysis.processNewSleepStatistic(this.lastID)
                 }
+                if (values.includes("sleep-stat")) {
+                    checkThresholdsAndAlert(req.body, 1)
+                }
                 res.json({ success: true, id: this.lastID, message: 'Đã nhận dữ liệu. Đang phân tích...' });
             }
         );
