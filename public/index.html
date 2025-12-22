@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Smart Pillow</title>
@@ -16,6 +17,30 @@
         <h1 class="text-2xl font-bold text-white drop-shadow-md">
           Smart Pillow
         </h1>
+
+        <h2 class="w-[40px] h-[40px] cursor-pointer" id="settingThresholdBtn">
+          <svg
+            viewBox="0 0 64 64"
+            xmlns="http://www.w3.org/2000/svg"
+            stroke-width="3"
+            stroke="#000000"
+            fill="none"
+            class="hover:fill-white hover:rotate-90 duration-300 transition-all"
+          >
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M45,14.67l-2.76,2a1,1,0,0,1-1,.11L37.65,15.3a1,1,0,0,1-.61-.76l-.66-3.77a1,1,0,0,0-1-.84H30.52a1,1,0,0,0-1,.77l-.93,3.72a1,1,0,0,1-.53.65l-3.3,1.66a1,1,0,0,1-1-.08l-3-2.13a1,1,0,0,0-1.31.12l-3.65,3.74a1,1,0,0,0-.13,1.26l1.87,2.88a1,1,0,0,1,.1.89L16.34,27a1,1,0,0,1-.68.63l-3.85,1.06a1,1,0,0,0-.74,1v4.74a1,1,0,0,0,.8,1l3.9.8a1,1,0,0,1,.72.57l1.42,3.15a1,1,0,0,1-.05.92l-2.13,3.63a1,1,0,0,0,.17,1.24L19.32,49a1,1,0,0,0,1.29.09L23.49,47a1,1,0,0,1,1-.1l3.74,1.67a1,1,0,0,1,.59.75l.66,3.79a1,1,0,0,0,1,.84h4.89a1,1,0,0,0,1-.86l.58-4a1,1,0,0,1,.58-.77l3.58-1.62a1,1,0,0,1,1,.09l3.14,2.12a1,1,0,0,0,1.3-.15L50,45.06a1,1,0,0,0,.09-1.27l-2.08-3a1,1,0,0,1-.09-1l1.48-3.43a1,1,0,0,1,.71-.59L53.77,35a1,1,0,0,0,.8-1V29.42a1,1,0,0,0-.8-1l-3.72-.78a1,1,0,0,1-.73-.62l-1.45-3.65a1,1,0,0,1,.11-.94l2.15-3.14A1,1,0,0,0,50,18l-3.71-3.25A1,1,0,0,0,45,14.67Z"
+              ></path>
+              <circle cx="32.82" cy="31.94" r="9.94"></circle>
+            </g>
+          </svg>
+        </h2>
       </div>
     </header>
 
@@ -249,7 +274,7 @@
             </div>
           </div>
 
-          <!-- ight -->
+          <!-- Right -->
           <div
             class="sm:w-[15%] w-full p-4 flex flex-col justify-center border-l border-gray-200"
           >
@@ -351,10 +376,13 @@
           <!-- Left -->
           <div class="sm:w-[15%] w-full p-4 flex flex-col justify-center">
             <h3 class="text-lg font-semibold text-yellow-700">Noise Index</h3>
-            <p class="text-3xl font-bold text-orange-500 mt-2" id="uvIndex">
+            <p
+              class="text-3xl font-bold text-orange-500 mt-2"
+              id="noiseIndexValue"
+            >
               7
             </p>
-            <p class="text-sm text-orange-600 mt-2" id="uvNotice">
+            <p class="text-sm text-orange-600 mt-2" id="noiseNotice">
               High - Use protection
             </p>
           </div>
@@ -383,35 +411,73 @@
       </section>
     </main>
 
-
     <!-- Analysis Button -->
-    <button 
+    <button
       id="analysisBtn"
       class="fixed top-1/2 right-10 -translate-y-1/2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
         <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+        <path
+          fill-rule="evenodd"
+          d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+          clip-rule="evenodd"
+        />
       </svg>
       <span>Phân tích gần nhất</span>
     </button>
 
     <!-- Modal Overlay -->
-    <div id="analysisModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div
+      id="analysisModal"
+      class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+    >
       <!-- Modal Container -->
-      <div class="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+      <div
+        class="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+      >
         <!-- Modal Header -->
-        <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-6 flex justify-between items-center">
+        <div
+          class="bg-gradient-to-r from-blue-500 to-purple-600 p-6 flex justify-between items-center"
+        >
           <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-7 w-7"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
               <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-              <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              <path
+                fill-rule="evenodd"
+                d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"
+              />
             </svg>
             Báo cáo phân tích giấc ngủ
           </h2>
-          <button id="closeModal" class="text-white hover:text-gray-200 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          <button
+            id="closeModal"
+            class="text-white hover:text-gray-200 transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -420,15 +486,30 @@
         <div class="overflow-y-auto p-6 flex-1">
           <!-- Loading State -->
           <div id="loadingState" class="flex items-center justify-center py-12">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+            <div
+              class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"
+            ></div>
           </div>
 
           <!-- Error State -->
           <div id="errorState" class="hidden text-center py-12">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-16 w-16 text-red-500 mx-auto mb-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
-            <p class="text-gray-600 text-lg" id="errorMessage">Không thể tải dữ liệu</p>
+            <p class="text-gray-600 text-lg" id="errorMessage">
+              Không thể tải dữ liệu
+            </p>
           </div>
 
           <!-- Content State -->
@@ -436,101 +517,195 @@
             <!-- Report Date -->
             <div class="text-center pb-4 border-b border-gray-200">
               <p class="text-sm text-gray-500">Ngày báo cáo</p>
-              <p class="text-xl font-semibold text-gray-800" id="reportDate">-</p>
+              <p class="text-xl font-semibold text-gray-800" id="reportDate">
+                -
+              </p>
             </div>
 
             <!-- Score Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <!-- Overall Score -->
-              <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center">
-                <p class="text-sm text-purple-600 font-medium mb-2">Điểm tổng thể</p>
-                <p class="text-4xl font-bold text-purple-700" id="overallScore">-</p>
+              <div
+                class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 text-center"
+              >
+                <p class="text-sm text-purple-600 font-medium mb-2">
+                  Điểm tổng thể
+                </p>
+                <p class="text-4xl font-bold text-purple-700" id="overallScore">
+                  -
+                </p>
                 <p class="text-xs text-purple-600 mt-1" id="qualityLevel">-</p>
               </div>
 
               <!-- Physiology Score -->
-              <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center">
-                <p class="text-sm text-blue-600 font-medium mb-2">Điểm sinh lý</p>
-                <p class="text-4xl font-bold text-blue-700" id="physiologyScore">-</p>
+              <div
+                class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center"
+              >
+                <p class="text-sm text-blue-600 font-medium mb-2">
+                  Điểm sinh lý
+                </p>
+                <p
+                  class="text-4xl font-bold text-blue-700"
+                  id="physiologyScore"
+                >
+                  -
+                </p>
               </div>
 
               <!-- Environment Score -->
-              <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center">
-                <p class="text-sm text-green-600 font-medium mb-2">Điểm môi trường</p>
-                <p class="text-4xl font-bold text-green-700" id="environmentScore">-</p>
+              <div
+                class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center"
+              >
+                <p class="text-sm text-green-600 font-medium mb-2">
+                  Điểm môi trường
+                </p>
+                <p
+                  class="text-4xl font-bold text-green-700"
+                  id="environmentScore"
+                >
+                  -
+                </p>
               </div>
             </div>
 
             <!-- Sleep Metrics -->
             <div class="bg-gray-50 rounded-xl p-4">
-              <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 text-blue-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"
+                  />
                 </svg>
                 Thông tin giấc ngủ
               </h3>
               <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div class="bg-white rounded-lg p-3">
                   <p class="text-xs text-gray-500">Tổng thời gian</p>
-                  <p class="text-lg font-semibold text-gray-800"><span id="totalSleepHours">-</span>h</p>
+                  <p class="text-lg font-semibold text-gray-800">
+                    <span id="totalSleepHours">-</span>h
+                  </p>
                 </div>
                 <div class="bg-white rounded-lg p-3">
                   <p class="text-xs text-gray-500">Hiệu suất</p>
-                  <p class="text-lg font-semibold text-gray-800"><span id="sleepEfficiency">-</span>%</p>
+                  <p class="text-lg font-semibold text-gray-800">
+                    <span id="sleepEfficiency">-</span>%
+                  </p>
                 </div>
                 <div class="bg-white rounded-lg p-3">
                   <p class="text-xs text-gray-500">Ngủ sâu</p>
-                  <p class="text-lg font-semibold text-gray-800"><span id="deepSleepPercent">-</span>%</p>
+                  <p class="text-lg font-semibold text-gray-800">
+                    <span id="deepSleepPercent">-</span>%
+                  </p>
                 </div>
                 <div class="bg-white rounded-lg p-3">
                   <p class="text-xs text-gray-500">Thay đổi tư thế</p>
-                  <p class="text-lg font-semibold text-gray-800" id="positionChanges">-</p>
+                  <p
+                    class="text-lg font-semibold text-gray-800"
+                    id="positionChanges"
+                  >
+                    -
+                  </p>
                 </div>
               </div>
             </div>
 
             <!-- Health Metrics -->
             <div class="bg-gray-50 rounded-xl p-4">
-              <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 text-red-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
                 Chỉ số sức khỏe
               </h3>
               <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                 <div class="bg-white rounded-lg p-3">
                   <p class="text-xs text-gray-500">Nhịp tim TB</p>
-                  <p class="text-lg font-semibold text-gray-800"><span id="avgHeartRate">-</span> bpm</p>
+                  <p class="text-lg font-semibold text-gray-800">
+                    <span id="avgHeartRate">-</span> bpm
+                  </p>
                 </div>
                 <div class="bg-white rounded-lg p-3">
                   <p class="text-xs text-gray-500">SpO2 TB</p>
-                  <p class="text-lg font-semibold text-gray-800"><span id="avgSpO2">-</span>%</p>
+                  <p class="text-lg font-semibold text-gray-800">
+                    <span id="avgSpO2">-</span>%
+                  </p>
                 </div>
                 <div class="bg-white rounded-lg p-3">
                   <p class="text-xs text-gray-500">Nhiệt độ cơ thể</p>
-                  <p class="text-lg font-semibold text-gray-800"><span id="avgBodyTemp">-</span>°C</p>
+                  <p class="text-lg font-semibold text-gray-800">
+                    <span id="avgBodyTemp">-</span>°C
+                  </p>
                 </div>
               </div>
             </div>
 
             <!-- AI Analysis -->
-            <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-4">
-              <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+            <div
+              class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-4"
+            >
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 text-indigo-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
                 Phân tích AI
               </h3>
               <div class="bg-white rounded-lg p-4 max-h-64 overflow-y-auto">
-                <p class="text-sm text-gray-700 whitespace-pre-line leading-relaxed" id="aiAnalysis">-</p>
+                <p
+                  class="text-sm text-gray-700 whitespace-pre-line leading-relaxed"
+                  id="aiAnalysis"
+                >
+                  -
+                </p>
               </div>
             </div>
 
             <!-- Recommendations -->
-            <div class="bg-gradient-to-br from-green-50 to-teal-50 rounded-xl p-4">
-              <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            <div
+              class="bg-gradient-to-br from-green-50 to-teal-50 rounded-xl p-4"
+            >
+              <h3
+                class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 text-green-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
                 Khuyến nghị
               </h3>
@@ -539,6 +714,308 @@
               </ul>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL FOR THRESHOLD -->
+    <div
+      id="thresholdModal"
+      class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+    >
+      <!-- Modal Container -->
+      <div
+        class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+      >
+        <!-- Modal Header -->
+        <div
+          class="bg-gradient-to-r from-orange-500 to-red-600 p-6 flex justify-between items-center"
+        >
+          <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-7 w-7"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Cài đặt ngưỡng cảnh báo
+          </h2>
+          <button
+            id="closeThresholdModal"
+            class="text-white hover:text-gray-200 transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Modal Content -->
+        <div class="overflow-y-auto p-6 flex-1">
+          <form id="thresholdForm" class="space-y-4">
+            <!-- Temperature -->
+            <div
+              class="bg-gradient-to-r from-red-50 to-orange-50 rounded-lg p-4"
+            >
+              <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <span class="flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 text-red-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01.894-1.788l1.599.799L11 4.323V3a1 1 0 011-1zm-5 8.274l-.818 2.552c-.25.78.409 1.674 1.318 1.674.487 0 .953-.196 1.293-.536l.136-.136a1 1 0 011.414 0l.136.136c.34.34.806.536 1.293.536.909 0 1.568-.894 1.318-1.674l-.818-2.552a1 1 0 00-.95-.69H6.95a1 1 0 00-.95.69z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  Nhiệt độ (Temperature)
+                </span>
+              </label>
+              <div class="flex items-center gap-3">
+                <input
+                  type="number"
+                  id="tempThreshold"
+                  name="temp"
+                  step="0.1"
+                  class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  placeholder="30.0"
+                />
+                <span class="text-gray-600 font-medium">°C</span>
+              </div>
+            </div>
+
+            <!-- Humidity -->
+            <div
+              class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg p-4"
+            >
+              <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <span class="flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 text-blue-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.5 2a.5.5 0 01.5.5V4h8V2.5a.5.5 0 011 0V4h1.5A1.5 1.5 0 0118 5.5v1A1.5 1.5 0 0116.5 8h-13A1.5 1.5 0 012 6.5v-1A1.5 1.5 0 013.5 4H5V2.5a.5.5 0 01.5-.5zM3.5 10a.5.5 0 01.5-.5h12a.5.5 0 01.5.5v5.5a1.5 1.5 0 01-1.5 1.5h-10A1.5 1.5 0 013 15.5V10z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  Độ ẩm (Humidity)
+                </span>
+              </label>
+              <div class="flex items-center gap-3">
+                <input
+                  type="number"
+                  id="humidThreshold"
+                  name="humid"
+                  step="0.1"
+                  class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="70.0"
+                />
+                <span class="text-gray-600 font-medium">%</span>
+              </div>
+            </div>
+
+            <!-- PM2.5 -->
+            <div
+              class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4"
+            >
+              <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <span class="flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 text-purple-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM13 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"
+                    />
+                  </svg>
+                  PM2.5
+                </span>
+              </label>
+              <div class="flex items-center gap-3">
+                <input
+                  type="number"
+                  id="pm25Threshold"
+                  name="pm25"
+                  step="0.1"
+                  class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  placeholder="50.0"
+                />
+                <span class="text-gray-600 font-medium">µg/m³</span>
+              </div>
+            </div>
+
+            <!-- CO2 -->
+            <div
+              class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4"
+            >
+              <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <span class="flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 text-green-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  CO2
+                </span>
+              </label>
+              <div class="flex items-center gap-3">
+                <input
+                  type="number"
+                  id="co2Threshold"
+                  name="co2"
+                  step="1"
+                  class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  placeholder="1000"
+                />
+                <span class="text-gray-600 font-medium">ppm</span>
+              </div>
+            </div>
+
+            <!-- Noise -->
+            <div
+              class="bg-gradient-to-r from-yellow-50 to-amber-50 rounded-lg p-4"
+            >
+              <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <span class="flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 text-yellow-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                    <path
+                      fill-rule="evenodd"
+                      d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  Tiếng ồn (Noise)
+                </span>
+              </label>
+              <div class="flex items-center gap-3">
+                <input
+                  type="number"
+                  id="noiseThreshold"
+                  name="noise"
+                  step="0.1"
+                  class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  placeholder="50.0"
+                />
+                <span class="text-gray-600 font-medium">dB</span>
+              </div>
+            </div>
+
+            <!-- Light -->
+            <div
+              class="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg p-4"
+            >
+              <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <span class="flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 text-orange-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"
+                    />
+                  </svg>
+                  Ánh sáng (Light)
+                </span>
+              </label>
+              <div class="flex items-center gap-3">
+                <input
+                  type="number"
+                  id="lightThreshold"
+                  name="light"
+                  step="1"
+                  class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  placeholder="300"
+                />
+                <span class="text-gray-600 font-medium">lux</span>
+              </div>
+            </div>
+          </form>
+
+          <!-- Info Box -->
+          <div class="mt-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+            <div class="flex items-start">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-blue-500 mt-0.5 mr-2"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <div class="text-sm text-blue-700">
+                <p class="font-semibold mb-1">Lưu ý:</p>
+                <p>
+                  Khi các giá trị vượt ngưỡng đã đặt, hệ thống sẽ gửi cảnh báo
+                  qua Telegram bot.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div
+          class="bg-gray-50 px-6 py-4 flex justify-end gap-3 border-t border-gray-200"
+        >
+          <button
+            type="button"
+            id="cancelThresholdBtn"
+            class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors font-medium"
+          >
+            Hủy
+          </button>
+          <button
+            type="button"
+            id="saveThresholdBtn"
+            class="px-6 py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg hover:from-orange-600 hover:to-red-700 transition-all font-medium shadow-md hover:shadow-lg"
+          >
+            Lưu cài đặt
+          </button>
         </div>
       </div>
     </div>

@@ -1,7 +1,10 @@
 const express = require("express");
 const db = require("./db");
+const TelegramBot = require('node-telegram-bot-api');
 require('dotenv').config()
 const SleepAnalysisService = require('./sleepAnalyzer/sleepAnalysisService')
+const telegramBot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN)
+const telegramChatId = process.env.TELEGRAM_CHAT_ID
 
 // Auto CRUD Generator
 function createCRUDRoute({ table, columns }) {
@@ -135,5 +138,107 @@ function createCRUDRoute({ table, columns }) {
 
     return router;
 }
+
+
+async function checkThresholdsAndAlert(data, deviceID, isTest = false) {
+    try {
+        const alerts = []
+        const thresholds = await getDeviceThresholds(deviceID);
+        if ((!thresholds)) {
+            console.log(`No thresholds found for device ${deviceID}`);
+            return;
+        }
+
+        if (isTest) {
+            alerts.push(`🌡️ Nhiệt độ phòng quá cao: ${1000}°C (ngưỡng: ${thresholds.temp}°C)`);
+            alerts.push(`💧 Độ ẩm quá cao: ${200}% (ngưỡng: ${thresholds.humid}%)`);
+
+            const message = `🚨 **CẢNH BÁO MÔI TRƯỜNG NGỦ**\n\n` +
+                `Thiết bị: ${deviceID}\n` +
+                `Thời gian: ${new Date().toLocaleString('vi-VN')}\n\n` +
+                alerts.join('\n') +
+                `\n\nKhuyến nghị kiểm tra điều kiện phòng ngủ!`;
+
+            await sendTelegramMessage(message);
+            console.log(`Sent ${alerts.length} threshold alerts for device ${deviceID}`);
+            return
+        }
+
+        // Check each metric against thresholds
+        if (data.avgEnvTemp !== null && data.avgEnvTemp > thresholds.temp) {
+            alerts.push(`🌡️ Nhiệt độ phòng quá cao: ${data.avgEnvTemp.toFixed(1)}°C (ngưỡng: ${thresholds.temp}°C)`);
+        }
+
+        if (data.avgHumidity !== null && data.avgHumidity > thresholds.humid) {
+            alerts.push(`💧 Độ ẩm quá cao: ${data.avgHumidity.toFixed(1)}% (ngưỡng: ${thresholds.humid}%)`);
+        }
+
+        if (data.avgPM25 !== null && data.avgPM25 > thresholds.pm25) {
+            alerts.push(`🌫️ PM2.5 quá cao: ${data.avgPM25.toFixed(1)} µg/m³ (ngưỡng: ${thresholds.pm25} µg/m³)`);
+        }
+
+        if (data.avgCO2 !== null && data.avgCO2 > thresholds.co2) {
+            alerts.push(`🫁 CO2 quá cao: ${data.avgCO2.toFixed(0)} ppm (ngưỡng: ${thresholds.co2} ppm)`);
+        }
+
+        if (data.avgNoise !== null && data.avgNoise > thresholds.noise) {
+            alerts.push(`🔊 Tiếng ồn quá cao: ${data.avgNoise.toFixed(1)} dB (ngưỡng: ${thresholds.noise} dB)`);
+        }
+
+        if (data.avgLight !== null && data.avgLight > thresholds.light) {
+            alerts.push(`💡 Ánh sáng quá mạnh: ${data.avgLight.toFixed(0)} lux (ngưỡng: ${thresholds.light} lux)`);
+        }
+
+        // Send alerts if any thresholds exceeded
+        if (alerts.length > 0) {
+            const message = `🚨 **CẢNH BÁO MÔI TRƯỜNG NGỦ**\n\n` +
+                `Thiết bị: ${deviceID}\n` +
+                `Thời gian: ${new Date().toLocaleString('vi-VN')}\n\n` +
+                alerts.join('\n') +
+                `\n\nKhuyến nghị kiểm tra điều kiện phòng ngủ!`;
+
+            await this.sendTelegramMessage(message);
+            console.log(`Sent ${alerts.length} threshold alerts for device ${deviceID}`);
+        }
+    } catch (error) {
+        console.error('Error checking thresholds:', error);
+    }
+}
+
+/**
+ * Get thresholds for a device
+ */
+async function getDeviceThresholds(deviceID) {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT * FROM thresholds WHERE deviceID = ? ORDER BY id DESC LIMIT 1`;
+        db.get(query, [deviceID], (err, row) => {
+            if (err) reject(err);
+            else resolve(row);
+        });
+    });
+}
+
+/**
+ * Send Telegram message
+ */
+async function sendTelegramMessage(message) {
+    try {
+        if (!telegramBot || !telegramChatId) {
+            console.warn('Telegram bot not configured');
+            return;
+        }
+
+        await telegramBot.sendMessage(telegramChatId, message, {
+            parse_mode: 'Markdown',
+            disable_web_page_preview: true
+        });
+
+        console.log('Telegram message sent successfully');
+    } catch (error) {
+        console.error('Error sending Telegram message:', error);
+    }
+}
+
+// checkThresholdsAndAlert(null, 1, true)
 
 module.exports = createCRUDRoute;

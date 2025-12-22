@@ -228,10 +228,10 @@ function formatDate(dateStr) {
     if (!dateStr) return '-';
     const date = new Date(dateStr);
     if (isNaN(date.getTime())) return dateStr;
-    return date.toLocaleDateString('vi-VN', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
+    return date.toLocaleDateString('vi-VN', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
     });
 }
 
@@ -250,35 +250,35 @@ function formatQualityLevel(level) {
 function populateModal(report) {
     // Report date
     document.getElementById('reportDate').textContent = formatDate(report.reportDate);
-    
+
     // Scores
     document.getElementById('overallScore').textContent = report.overallScore || '-';
     document.getElementById('physiologyScore').textContent = report.physiologyScore || '-';
     document.getElementById('environmentScore').textContent = report.environmentScore || '-';
     document.getElementById('qualityLevel').textContent = formatQualityLevel(report.qualityLevel);
-    
+
     // Sleep metrics
     document.getElementById('totalSleepHours').textContent = report.totalSleepHours || '-';
     document.getElementById('sleepEfficiency').textContent = report.sleepEfficiency || '-';
-    document.getElementById('deepSleepPercent').textContent = 
+    document.getElementById('deepSleepPercent').textContent =
         report.deepSleepPercent ? report.deepSleepPercent.toFixed(1) : '-';
     document.getElementById('positionChanges').textContent = report.positionChanges || '-';
-    
+
     // Health metrics
-    document.getElementById('avgHeartRate').textContent = 
+    document.getElementById('avgHeartRate').textContent =
         report.avgHeartRate ? report.avgHeartRate.toFixed(1) : '-';
-    document.getElementById('avgSpO2').textContent = 
+    document.getElementById('avgSpO2').textContent =
         report.avgSpO2 ? report.avgSpO2.toFixed(1) : '-';
-    document.getElementById('avgBodyTemp').textContent = 
+    document.getElementById('avgBodyTemp').textContent =
         report.avgBodyTemp ? report.avgBodyTemp.toFixed(1) : '-';
-    
+
     // AI Analysis
     document.getElementById('aiAnalysis').textContent = report.aiAnalysis || 'Không có phân tích';
-    
+
     // Recommendations
     const recommendationsList = document.getElementById('recommendations');
     recommendationsList.innerHTML = '';
-    
+
     if (report.recommendations && Array.isArray(report.recommendations)) {
         report.recommendations.forEach(rec => {
             const li = document.createElement('li');
@@ -321,9 +321,9 @@ async function openAnalysisModal() {
     const modal = document.getElementById('analysisModal');
     modal.classList.remove('hidden');
     showLoadingState();
-    
+
     const result = await fetchLastReport();
-    
+
     if (result.success && result.data && result.data.length > 0) {
         populateModal(result.data[0]);
         showContentState();
@@ -338,35 +338,142 @@ function closeAnalysisModal() {
     modal.classList.add('hidden');
 }
 
+async function openThresholdMoal() {
+    const modal = document.getElementById('thresholdModal');
+    modal.classList.remove('hidden');
+
+    // Load current thresholds
+    await loadCurrentThresholds();
+}
+
 // Event listeners for modal
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const analysisBtn = document.getElementById('analysisBtn');
     const closeModalBtn = document.getElementById('closeModal');
     const modal = document.getElementById('analysisModal');
-    
+    const settingThresholdBtn = document.getElementById("settingThresholdBtn");
+
     // Open modal on button click
     if (analysisBtn) {
         analysisBtn.addEventListener('click', openAnalysisModal);
     }
-    
+
     // Close modal on close button click
     if (closeModalBtn) {
         closeModalBtn.addEventListener('click', closeAnalysisModal);
     }
-    
+
     // Close modal on overlay click
     if (modal) {
-        modal.addEventListener('click', function(e) {
+        modal.addEventListener('click', function (e) {
             if (e.target === modal) {
                 closeAnalysisModal();
             }
         });
     }
-    
+
+    if (settingThresholdBtn) {
+        settingThresholdBtn.addEventListener('click', async function (e) {
+            await openThresholdMoal();
+        })
+    }
+
+    // Threshold modal event listeners
+    const closeThresholdModalBtn = document.getElementById('closeThresholdModal');
+    const cancelThresholdBtn = document.getElementById('cancelThresholdBtn');
+    const saveThresholdBtn = document.getElementById('saveThresholdBtn');
+    const thresholdModal = document.getElementById('thresholdModal');
+
+    if (closeThresholdModalBtn) {
+        closeThresholdModalBtn.addEventListener('click', closeThresholdModal);
+    }
+
+    if (cancelThresholdBtn) {
+        cancelThresholdBtn.addEventListener('click', closeThresholdModal);
+    }
+
+    if (saveThresholdBtn) {
+        saveThresholdBtn.addEventListener('click', saveThresholds);
+    }
+
+    if (thresholdModal) {
+        thresholdModal.addEventListener('click', function (e) {
+            if (e.target === thresholdModal) {
+                closeThresholdModal();
+            }
+        });
+    }
+
+
     // Close modal on Escape key
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             closeAnalysisModal();
+            closeThresholdModal();
         }
     });
 });
+
+
+/**************************************
+ * 5) Threshold Modal Functions
+ **************************************/
+
+// Load current threshold values from API
+async function loadCurrentThresholds() {
+    try {
+        const result = await fetchData('/api/thresholds', { deviceID: 1 });
+        if (result.success && result.data && result.data.length > 0) {
+            const thresholds = result.data[0];
+            document.getElementById('tempThreshold').value = thresholds.temp || '';
+            document.getElementById('humidThreshold').value = thresholds.humid || '';
+            document.getElementById('pm25Threshold').value = thresholds.pm25 || '';
+            document.getElementById('co2Threshold').value = thresholds.co2 || '';
+            document.getElementById('noiseThreshold').value = thresholds.noise || '';
+            document.getElementById('lightThreshold').value = thresholds.light || '';
+        }
+    } catch (error) {
+        console.error('Error loading thresholds:', error);
+    }
+}
+
+// Save threshold values
+async function saveThresholds() {
+    const formData = new FormData(document.getElementById('thresholdForm'));
+    const thresholds = {
+        deviceID: 1,
+        temp: parseFloat(formData.get('temp')) || 30.0,
+        humid: parseFloat(formData.get('humid')) || 70.0,
+        pm25: parseFloat(formData.get('pm25')) || 50.0,
+        co2: parseFloat(formData.get('co2')) || 1000.0,
+        noise: parseFloat(formData.get('noise')) || 50.0,
+        light: parseFloat(formData.get('light')) || 300.0
+    };
+
+    try {
+        const response = await fetch('/api/thresholds/upsert', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(thresholds)
+        })
+
+        const res = await response.json();
+        if (res.success) {
+            alert('Ngưỡng đã được lưu!');
+            closeThresholdModal();
+        } else {
+            alert('Có lỗi xảy ra khi lưu ngưỡng: ' + (result.error || 'Unknown error'));
+        }
+    } catch (error) {
+        console.error('Error saving thresholds:', error);
+        alert('Có lỗi xảy ra khi lưu ngưỡng');
+    }
+}
+
+// Close threshold modal
+function closeThresholdModal() {
+    const modal = document.getElementById('thresholdModal');
+    modal.classList.add('hidden');
+}

@@ -99,3 +99,18 @@ CREATE TABLE IF NOT EXISTS sleepAnalysisReports (
     UNIQUE(deviceID, sleepStatID),
     FOREIGN KEY (sleepStatID) REFERENCES sleepStatistic(id)
 );
+
+-- Schema for thresholds table
+CREATE TABLE IF NOT EXISTS thresholds (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    deviceID INTEGER NOT NULL,
+    temp REAL DEFAULT 30.0,
+    humid REAL DEFAULT 70.0,
+    pm25 REAL DEFAULT 50.0,
+    co2 REAL DEFAULT 1000.0,
+    noise REAL DEFAULT 50.0,
+    light REAL DEFAULT 300.0,
+    createdAt INTEGER DEFAULT (strftime('%s', 'now')),
+    updatedAt INTEGER DEFAULT (strftime('%s', 'now')),
+    timestamp INTEGER DEFAULT (strftime('%s', 'now'))
+);
