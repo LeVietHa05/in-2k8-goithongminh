@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const createCRUDRoute = require("../crudGenerator");
+const db = require("./../db");
 
 // sleepData
 router.use(
