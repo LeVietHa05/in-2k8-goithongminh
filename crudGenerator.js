@@ -168,28 +168,28 @@ async function checkThresholdsAndAlert(data, deviceID, isTest = false) {
         }
 
         // Check each metric against thresholds
-        if (data.avgEnvTemp !== null && data.avgEnvTemp > thresholds.temp) {
-            alerts.push(`🌡️ Nhiệt độ phòng quá cao: ${data.avgEnvTemp.toFixed(1)}°C (ngưỡng: ${thresholds.temp}°C)`);
+        if (data.temperature !== null && data.temperature > thresholds.temp) {
+            alerts.push(`🌡️ Nhiệt độ phòng quá cao: ${data.temperature.toFixed(1)}°C (ngưỡng: ${thresholds.temp}°C)`);
         }
 
-        if (data.avgHumidity !== null && data.avgHumidity > thresholds.humid) {
-            alerts.push(`💧 Độ ẩm quá cao: ${data.avgHumidity.toFixed(1)}% (ngưỡng: ${thresholds.humid}%)`);
+        if (data.humidity !== null && data.humidity > thresholds.humid) {
+            alerts.push(`💧 Độ ẩm quá cao: ${data.humidity.toFixed(1)}% (ngưỡng: ${thresholds.humid}%)`);
         }
 
-        if (data.avgPM25 !== null && data.avgPM25 > thresholds.pm25) {
-            alerts.push(`🌫️ PM2.5 quá cao: ${data.avgPM25.toFixed(1)} µg/m³ (ngưỡng: ${thresholds.pm25} µg/m³)`);
+        if (data.pm25 !== null && data.pm25 > thresholds.pm25) {
+            alerts.push(`🌫️ PM2.5 quá cao: ${data.pm25.toFixed(1)} µg/m³ (ngưỡng: ${thresholds.pm25} µg/m³)`);
         }
 
-        if (data.avgCO2 !== null && data.avgCO2 > thresholds.co2) {
-            alerts.push(`🫁 CO2 quá cao: ${data.avgCO2.toFixed(0)} ppm (ngưỡng: ${thresholds.co2} ppm)`);
+        if (data.co2 !== null && data.co2 > thresholds.co2) {
+            alerts.push(`🫁 CO2 quá cao: ${data.co2.toFixed(0)} ppm (ngưỡng: ${thresholds.co2} ppm)`);
         }
 
-        if (data.avgNoise !== null && data.avgNoise > thresholds.noise) {
-            alerts.push(`🔊 Tiếng ồn quá cao: ${data.avgNoise.toFixed(1)} dB (ngưỡng: ${thresholds.noise} dB)`);
+        if (data.noise !== null && data.noise > thresholds.noise) {
+            alerts.push(`🔊 Tiếng ồn quá cao: ${data.noise.toFixed(1)} dB (ngưỡng: ${thresholds.noise} dB)`);
         }
 
-        if (data.avgLight !== null && data.avgLight > thresholds.light) {
-            alerts.push(`💡 Ánh sáng quá mạnh: ${data.avgLight.toFixed(0)} lux (ngưỡng: ${thresholds.light} lux)`);
+        if (data.light !== null && data.light > thresholds.light) {
+            alerts.push(`💡 Ánh sáng quá mạnh: ${data.light.toFixed(0)} lux (ngưỡng: ${thresholds.light} lux)`);
         }
 
         // Send alerts if any thresholds exceeded
