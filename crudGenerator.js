@@ -17,7 +17,7 @@ function createCRUDRoute({ table, columns }) {
     // ---- CREATE ----
     router.post("/", (req, res) => {
         const values = columns.map(c => req.body[c] ?? null);
-        console.log(values)
+        // console.log(values)
         db.run(
             `INSERT INTO ${table} (${colList}) VALUES (${placeholders})`,
             values,
@@ -29,7 +29,7 @@ function createCRUDRoute({ table, columns }) {
                     analysis.processNewSleepStatistic(this.lastID)
                 }
                 if (values.includes("sleep_data")) {
-                    console.log(req.body)
+                    // console.log(req.body)
                     checkThresholdsAndAlert(req.body, 1)
                 }
                 res.json({ success: true, id: this.lastID, message: 'Đã nhận dữ liệu. Đang phân tích...' });
@@ -202,7 +202,7 @@ async function checkThresholdsAndAlert(data, deviceID, isTest = false) {
                 alerts.join('\n') +
                 `\n\nKhuyến nghị kiểm tra điều kiện phòng ngủ!`;
 
-            await this.sendTelegramMessage(message);
+            await sendTelegramMessage(message);
             console.log(`Sent ${alerts.length} threshold alerts for device ${deviceID}`);
         }
     } catch (error) {
