@@ -17,6 +17,7 @@ function createCRUDRoute({ table, columns }) {
     // ---- CREATE ----
     router.post("/", (req, res) => {
         const values = columns.map(c => req.body[c] ?? null);
+        console.log(values)
         db.run(
             `INSERT INTO ${table} (${colList}) VALUES (${placeholders})`,
             values,
