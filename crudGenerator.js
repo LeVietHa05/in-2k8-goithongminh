@@ -28,7 +28,7 @@ function createCRUDRoute({ table, columns }) {
                     const analysis = new SleepAnalysisService({ openaiApiKey: process.env.OPENAI_API_KEY })
                     analysis.processNewSleepStatistic(this.lastID)
                 }
-                if (values.includes("sleepData")) {
+                if (values.includes("sleep_data")) {
                     console.log(req.body)
                     checkThresholdsAndAlert(req.body, 1)
                 }
