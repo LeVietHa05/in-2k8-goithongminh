@@ -1,4 +1,11 @@
 /**************************************
+ DEVICE ID
+**************************************/
+function getDeviceID() {
+    return localStorage.getItem("deviceID");
+}
+
+/**************************************
  * 1) Generic API Fetcher 
  **************************************/
 async function fetchData(endpoint, params = {}) {
@@ -185,7 +192,7 @@ function getNotice(value, type) {
 
 async function loadChart() {
     // gọi API: GET /sleep-data?deviceID=1
-    const rawData = await fetchData("/api/sleep-data", { deviceID: 1 });
+    const rawData = await fetchData("/api/sleep-data", { deviceID: getDeviceID() });
     if (rawData.success == false) {
         console.log(rawData.error);
         return;
@@ -213,10 +220,13 @@ loadChart();
 // Fetch last report data
 async function fetchLastReport() {
     try {
-        const res = await fetch('/statistic/last-report');
+        const res = await fetch(`/statistic/last-report?deviceID=${getDeviceID()}`);
+
         if (!res.ok) throw new Error("Network error");
+
         const data = await res.json();
         return data;
+
     } catch (err) {
         console.error("Fetch last report error:", err);
         return { success: false, error: err.message };
@@ -422,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // Load current threshold values from API
 async function loadCurrentThresholds() {
     try {
-        const result = await fetchData('/api/thresholds', { deviceID: 1 });
+        const result = await fetchData('/api/thresholds', { deviceID: getDeviceID() });
         if (result.success && result.data && result.data.length > 0) {
             const thresholds = result.data[0];
             document.getElementById('tempThreshold').value = thresholds.temp || '';
@@ -441,7 +451,7 @@ async function loadCurrentThresholds() {
 async function saveThresholds() {
     const formData = new FormData(document.getElementById('thresholdForm'));
     const thresholds = {
-        deviceID: 1,
+        deviceID: getDeviceID(),
         temp: parseFloat(formData.get('temp')) || 30.0,
         humid: parseFloat(formData.get('humid')) || 70.0,
         pm25: parseFloat(formData.get('pm25')) || 50.0,
@@ -477,3 +487,36 @@ function closeThresholdModal() {
     const modal = document.getElementById('thresholdModal');
     modal.classList.add('hidden');
 }
+
+
+const modal = document.getElementById("controlModal");
+
+// mở modal
+document.getElementById("controlBtn").onclick = () => {
+  modal.classList.add("active");
+};
+
+// đóng modal
+document.getElementById("closeControl").onclick = () => {
+  modal.classList.remove("active");
+};
+
+// xử lý switch
+document.querySelectorAll(".switch input").forEach(sw => {
+  sw.addEventListener("change", async () => {
+    const device = sw.dataset.device;
+    const state = sw.checked ? "1" : "0";
+
+    console.log(device, state);
+    await fetch("/control", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        device,
+        state
+      })
+    });
+  });
+});

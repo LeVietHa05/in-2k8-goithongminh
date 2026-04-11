@@ -114,3 +114,11 @@ CREATE TABLE IF NOT EXISTS thresholds (
     updatedAt INTEGER DEFAULT (strftime('%s', 'now')),
     timestamp INTEGER DEFAULT (strftime('%s', 'now'))
 );
+
+-- User đăng nhập --
+CREATE TABLE IF NOT EXISTS users (
+    deviceID INTEGER PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    createdAt INTEGER DEFAULT (strftime('%s','now'))
+);

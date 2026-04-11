@@ -13,8 +13,10 @@
     "debug": "~2.6.9",
     "dotenv": "^17.2.3",
     "express": "~4.16.1",
+    "express-session": "^1.19.0",
     "morgan": "~1.9.1",
     "node-telegram-bot-api": "^0.67.0",
+    "nodemon": "^3.1.14",
     "openai": "^6.9.1",
     "sqlite3": "^5.1.6"
   },
