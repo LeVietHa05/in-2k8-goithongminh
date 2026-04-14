@@ -101,4 +101,52 @@ router.use(
 );
 
 
+router.get('/debug/database', (req, res) => {
+  // Lấy danh sách tất cả bảng
+  db.all("SELECT name FROM sqlite_master WHERE type='table'", [], (err, tables) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        error: err.message
+      });
+    }
+
+    if (!tables || tables.length === 0) {
+      return res.json({
+        success: false,
+        message: "❌ Không có bảng nào trong database"
+      });
+    }
+
+    // Lấy dữ liệu từng bảng
+    const result = {};
+    let pending = tables.length;
+
+    tables.forEach(table => {
+      const tableName = table.name;
+
+      db.all(`SELECT * FROM ${tableName} LIMIT 5`, [], (err, rows) => {
+        if (err) {
+          result[tableName] = { error: err.message };
+        } else {
+          result[tableName] = {
+            total: rows.length,
+            sample: rows
+          };
+        }
+
+        pending--;
+
+        if (pending === 0) {
+          res.json({
+            success: true,
+            tables: result
+          });
+        }
+      });
+    });
+  });
+});
+
+
 module.exports = router;

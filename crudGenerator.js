@@ -30,7 +30,7 @@ function createCRUDRoute({ table, columns }) {
                 }
                 if (values.includes("sleep_data")) {
                     // console.log(req.body)
-                    checkThresholdsAndAlert(req.body, 1)
+                    checkThresholdsAndAlert(req.body, req.body.deviceID)
                 }
                 res.json({ success: true, id: this.lastID, message: 'Đã nhận dữ liệu. Đang phân tích...' });
             }

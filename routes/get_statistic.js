@@ -38,27 +38,40 @@ router.get('/re-all/:sleepStatID', async function (req, res, next) {
 })
 
 router.get('/last-report', function (req, res, next) {
-    db.get(
-        `SELECT * FROM sleepAnalysisReports 
-         ORDER BY createdAt DESC 
-         LIMIT 1`,
-        [],
-        (err, row) => {
+    const deviceID = req.query.deviceID;
 
-            if (err) return res.json({ success: false, error: err.message });
-            if (!row) return res.json({ success: false, error: 'No reports found' });
+    let sql = `
+        SELECT * FROM sleepAnalysisReports
+    `;
+    let params = [];
+    if (deviceID) {
+        sql += ` WHERE deviceID = ? `;
+        params.push(deviceID);
+    }
 
-            // Parse recommendations if it's stored as JSON string
-            if (row.recommendations && typeof row.recommendations === 'string') {
-                try {
-                    row.recommendations = JSON.parse(row.recommendations);
-                } catch (e) {
-                    console.error('Error parsing recommendations:', e);
-                }
-            }
-            res.json({ success: true, data: [row] });
+    sql += ` ORDER BY createdAt DESC LIMIT 1`;
+
+    db.get(sql, params, (err, row) => {
+
+        if (err) {
+            return res.json({ success: false, error: err.message });
         }
-    );
+
+        if (!row) {
+            return res.json({ success: false, error: 'No reports found' });
+        }
+
+        // Parse recommendations nếu là string JSON
+        if (row.recommendations && typeof row.recommendations === 'string') {
+            try {
+                row.recommendations = JSON.parse(row.recommendations);
+            } catch (e) {
+                console.error('Error parsing recommendations:', e);
+            }
+        }
+
+        return res.json({ success: true, data: [row] });
+    });
 });
 
 

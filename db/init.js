@@ -70,24 +70,27 @@ Object.values(mockdata).forEach((item) => {
 insertSleepData.finalize();
 insertSleepStatistic.finalize();
 
-db.run(
-    `INSERT INTO thresholds (deviceID, temp) VALUES (?, ?)`,
-    [1, 25.5],
-    function (err) {
-        if (err) console.log('Insert error:', err);
-        else     console.log('Inserted ID:', this.lastID);
+db.serialize(() => {
 
-        // Test UNIQUE constraint
+    const devices = [1, 2, 3, 4, 5];
+
+    devices.forEach(deviceID => {
         db.run(
-            `INSERT INTO thresholds (deviceID) VALUES (?)`,
-            [1],  // Trùng deviceID
+            `INSERT OR REPLACE INTO thresholds 
+             (deviceID, temp, humid, co2, pm25, noise, light)
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [deviceID, 25.5, 60, 1000, 50, 40, 10],
             function (err) {
-                if (err) console.log('Expected error (unique violation):', err.message);
-                else console.log('UNIQUE constraint không hoạt động!');
+                if (err) {
+                    console.log(`Insert error for device ${deviceID}:`, err.message);
+                } else {
+                    console.log(`Inserted thresholds for device ${deviceID}`);
+                }
             }
         );
-    }
-);
+    });
+
+});
 
 // Close the database connection
 db.close((err) => {
